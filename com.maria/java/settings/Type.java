@@ -18,9 +18,12 @@ public class Type {
 
     public Type() {
         try {
-            this.key = System.getProperty("chart.type", "static");
-            this.k = new BigDecimal(toDouble(System.getProperty("chart.k", "7485.3547"), '.'));
-            this.b = new BigDecimal(toDouble(System.getProperty("chart.b", "0.7952"), '.'));
+            this.key = System.getProperty("chart.type", "dynamic");
+//            this.k = new BigDecimal(toDouble(System.getProperty("chart.k", "7485.3547"), '.'));
+//            this.b = new BigDecimal(toDouble(System.getProperty("chart.b", "0.7952"), '.'));
+
+            this.k = new BigDecimal(toDouble(System.getProperty("chart.k", "2989.1136"), '.'));
+            this.b = new BigDecimal(toDouble(System.getProperty("chart.b", "0.2865"), '.'));
         } catch (ParseException e) {
             e.printStackTrace();
         }

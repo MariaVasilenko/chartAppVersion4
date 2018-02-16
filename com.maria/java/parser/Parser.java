@@ -27,6 +27,10 @@ public class Parser {
 
     private Ydata y = new Ydata();
     private Xdata x = new Xdata();
+    private String fileName = null;
+
+
+    public String getFileName() { return fileName;}
 
     public Ydata getParserY() {
         return y;
@@ -40,31 +44,9 @@ public class Parser {
         return x;
     }
 
-//    public void setParserX(Xdata x) {
-//        this.x = x;
-//    }
 
     public List<String> getXYMax(Parser p) {
         return null;
-    }
-
-    public static XYSeriesCollection createDataSet(List<Parser> parserList) {
-
-        XYSeriesCollection dataset = new XYSeriesCollection();
-
-        for (Parser p : parserList) {
-            int size = p.getParserY().getY().size();
-            if (size != 0) {
-//                BigDecimal maxValueY = max(p.getParserY().getY()).round(MathContext.DECIMAL32);
-                XYSeries series = new XYSeries("Файл ");
-                for(int i=0; i < size; i++){
-                    series.add(p.getParserX().getX().get(i),
-                            p.getParserY().getY().get(i), true);
-                }
-                dataset.addSeries(series);
-            } else System.out.println("Y пуст");
-        }
-        return dataset;
     }
 
 
@@ -98,10 +80,31 @@ public class Parser {
         this.x.setUnit("step", new BigDecimal(1d), null);
         this.y.setY(y_0);
         this.y.setSettingsY(newDefaultInstance());
+        this.fileName = file.getName();
         return this;
     }
 
     ///////////////////////////////////////////////////////////////////////
+
+    public static XYSeriesCollection createDataSet(List<Parser> parserList) {
+
+        XYSeriesCollection dataset = new XYSeriesCollection();
+
+        for (Parser p : parserList) {
+            int size = p.getParserY().getY().size();
+            if (size != 0) {
+                BigDecimal maxValueY = max(p.getParserY().getY()).round(MathContext.DECIMAL32);
+                XYSeries series = new XYSeries("Файл: "+ p.getFileName() + " макс.нагузка = "+ maxValueY + " ");
+                for(int i=0; i < size; i++){
+                    series.add(p.getParserX().getX().get(i),
+                            p.getParserY().getY().get(i), true);
+                }
+                dataset.addSeries(series);
+            } else System.out.println("Y пуст");
+        }
+        return dataset;
+    }
+
     public static double toDouble(String s, char decimalSeparator) throws ParseException {
         DecimalFormat df = new DecimalFormat();
         DecimalFormatSymbols dfs = new DecimalFormatSymbols();

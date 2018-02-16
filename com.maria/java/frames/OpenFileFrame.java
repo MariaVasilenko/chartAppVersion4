@@ -8,7 +8,6 @@ import java.util.List;
 public class OpenFileFrame extends JFileChooser {
     private File[] files;
 
-    private List<String> listFileName;
 
     public OpenFileFrame() {
         super(System.getProperty("user.dir"));
@@ -20,20 +19,11 @@ public class OpenFileFrame extends JFileChooser {
         int ret = showDialog(null, "OK");
         if (ret == JFileChooser.APPROVE_OPTION) {
             files = getSelectedFiles();
-            listFileName = new ArrayList<>();
-            for (File f : files) {
-                listFileName.add(f.getName());
-            }
-
         }
     }
 
     public File[] getFiles() {
         return files;
-    }
-
-    public List<String> getListFileName() {
-        return listFileName;
     }
 
 }
